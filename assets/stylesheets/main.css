@@ -1,0 +1,94 @@
+body {
+    background: #f1f4f8;
+    font-family: 'whitney-medium', Helvetica, Arial, sans-serif;
+    padding-top: 100px;
+    overflow-x: hidden;
+}
+
+.navbar-default {
+    background-color: #252d31;
+    border: 0 none;
+    height: 60px;
+}
+
+.well {
+    background-color: #ffffff;
+    border: 1px solid #d0d5cb;
+}
+
+.well.message {
+    overflow-x: scroll;
+}
+.well.message pre {
+    padding: 0;
+}
+
+.well.message .subscription {
+    margin-bottom: 10px;
+}
+
+.page-header {
+    padding-bottom: 0;
+    margin: 0 0 20px;
+}
+
+#disconnectSettings, #subscriptions, #mqttActions, #mainAlert {
+    display: none;
+}
+
+#disconnectSettings .btn {
+    margin-top: -8px;
+}
+
+button.close {
+    font-family: "Helvetica Neue", Helvetica, Arial, sans-serif;
+}
+
+.subscription {
+    margin-bottom: 20px;
+}
+
+.subscription span.label {
+    display: inline-block;
+    max-width: 100%;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    margin-top: 4px;
+}
+
+.subscription a.stop {
+    margin-left: 8px;
+}
+
+.subscription a.stop, .subscription a.play-pause {
+    padding: 1px 5px;
+}
+
+.subscription a.stop i, .subscription a.play-pause i {
+    line-height: inherit;
+}
+
+.message pre.folded {
+    max-height: 55px;
+}
+
+.message pre.unfolded {
+    max-height: 100%;
+}
+
+#connectionSettings .checkbox {
+    margin-top: 0;
+}
+
+#generateRandomId {
+    width: 100%;
+    margin-top: 31px;
+}
+
+#retainPubInput {
+    margin-left: 20px;
+}
+
+.tooltip-inner {
+    min-width: 150px;
+}

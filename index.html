@@ -1,0 +1,309 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html>
+  <head>
+    <title>2lemetry MQTT Client</title>
+    <meta content='width=device-width, initial-scale=1.0' name='viewport' />
+    <meta content='IE=edge' http-equiv='X-UA-Compatible' />
+    <link href='assets/stylesheets/bootstrap.css' rel='stylesheet' />
+    <link href='assets/stylesheets/typography.css' rel='stylesheet' />
+    <link href='assets/stylesheets/ss-standard.css' rel='stylesheet' />
+    <link href='assets/stylesheets/2lemetry.css' rel='stylesheet' />
+    <link href='assets/stylesheets/rainbow.css' rel='stylesheet' />
+    <link href='assets/stylesheets/main.css' rel='stylesheet' />
+  </head>
+  <body>
+    <div class='navbar navbar-default navbar-fixed-top' role='navigation'>
+      <div class='top-gradient'></div>
+      <div class='navbar-header'>
+        <button class='navbar-toggle collapsed' data-target='.navbar-collapse' data-toggle='collapse' type='button'>
+          <span class='sr-only'>Toggle navigation</span>
+          <span class='icon-bar'></span>
+          <span class='icon-bar'></span>
+          <span class='icon-bar'></span>
+        </button>
+        <a class='navbar-brand' href='http://www.2lemetry.com'>
+          <div class='navbar-logo'></div>
+        </a>
+      </div>
+      <div class='navbar-collapse collapse'>
+        <ul class='nav navbar-nav'>
+          <li class='active'>
+            <a href='/'>MQTT Client</a>
+          </li>
+        </ul>
+      </div>
+    </div>
+    <div class='container'>
+      <div class='row'>
+  <div class='col-md-12'>
+    <div class='alert alert-warning' id='mainAlert'>
+      <button class='close' type='button'>&times;</button>
+      <div class='content'></div>
+    </div>
+  </div>
+</div>
+<div class='row'>
+  <div class='col-md-12'>
+    <div class='well' id='disconnectSettings'>
+      <h4 id='connectedTo'>
+        <span class='info'></span>
+        <a class='btn btn-warning pull-right' href='#doDisconnect' id='doDisconnect'>Disconnect</a>
+      </h4>
+    </div>
+    <form class='well' id='connectionSettings' role='form'>
+      <div class='row'>
+        <div class='col-md-4'>
+          <div class='page-header'>
+            <h4>Connection Details</h4>
+          </div>
+          <div class='row'>
+            <div class='col-md-8'>
+              <div class='form-group'>
+                <label for='hostnameInput'>Host Name</label>
+                <input class='form-control' data-toggle='tooltip' id='hostnameInput' placeholder='Enter host name' title='Use any MQTT broker that supports web sockets.' value='q.m2m.io' />
+              </div>
+            </div>
+            <div class='col-md-4'>
+              <div class='form-group'>
+                <label for='portInput'>Port</label>
+                <input class='form-control' id='portInput' placeholder='Enter port number' value='8083' />
+              </div>
+            </div>
+          </div>
+          <div class='row'>
+            <div class='col-md-8'>
+              <div class='form-group'>
+                <label for='clientIdInput'>Client ID</label>
+                <input class='form-control' data-toggle='tooltip' id='clientIdInput' placeholder='Enter client ID' title='MQTT client ID. 1-23 characters long.' />
+              </div>
+            </div>
+            <div class='col-md-4'>
+              <div class='btn btn-primary btn-xs' id='generateRandomId'>Generate</div>
+            </div>
+          </div>
+          <div class='row'>
+            <div class='col-md-6'>
+              <div class='form-group'>
+                <label for='cleanSessionInput'>Session</label>
+                <div class='checkbox'>
+                  <label data-toggle='tooltip' title='Uncheck to preserve the list of subscriptions and to receive queued QOS 1 and 2 messages.'>
+                    <input checked='checked' id='cleanSessionInput' type='checkbox'>
+                      Clean Session
+                    </input>
+                  </label>
+                </div>
+              </div>
+            </div>
+            <div class='col-md-6'>
+              <div class='form-group'>
+                <label for='useSslInput'>SSL</label>
+                <div class='checkbox'>
+                  <label>
+                    <input id='useSslInput' type='checkbox'>
+                      Use SSL
+                    </input>
+                  </label>
+                </div>
+              </div>
+            </div>
+          </div>
+          <div class='row'>
+            <div class='col-md-6'>
+              <div class='form-group'>
+                <label for='keepAliveInput'>Keep Alive</label>
+                <input class='form-control' data-toggle='tooltip' id='keepAliveInput' placeholder='Enter keep alive time' title='Keep alive in seconds.' value='30' />
+              </div>
+            </div>
+            <div class='col-md-6'></div>
+          </div>
+        </div>
+        <div class='col-md-4'>
+          <div class='page-header'>
+            <h4>Credentials</h4>
+          </div>
+          <div class='row'>
+            <div class='col-md-12'>
+              <div class='form-group'>
+                <label for='usernameInput'>Username</label>
+                <input class='form-control' id='usernameInput' placeholder='Enter username' />
+              </div>
+            </div>
+          </div>
+          <div class='row'>
+            <div class='col-md-12'>
+              <div class='form-group'>
+                <label for='passwordInput'>Password</label>
+                <input class='form-control' id='passwordInput' placeholder='Enter password' type='password' />
+              </div>
+            </div>
+          </div>
+          <div class='row'>
+            <div class='col-md-12'>
+              <div class='checkbox'>
+                <label data-toggle='tooltip' title='q.m2m.io requires passwords to be hashed.'>
+                  <input checked='checked' id='md5Input' type='checkbox'>
+                    Hash password with MD5
+                  </input>
+                </label>
+              </div>
+            </div>
+          </div>
+        </div>
+        <div class='col-md-4'>
+          <div class='page-header'>
+            <h4>Last-Will</h4>
+          </div>
+          <div class='row'>
+            <div class='col-md-12'>
+              <div class='form-group'>
+                <label for='lastWillTopicInput'>Last-Will Topic</label>
+                <input class='form-control' id='lastWillTopicInput' placeholder='Enter last-will topic' />
+              </div>
+            </div>
+          </div>
+          <div class='row'>
+            <div class='col-md-12'>
+              <div class='form-group'>
+                <label for='lastWillMessageInput'>Last-Will Message</label>
+                <textarea class='form-control' id='lastWillMessageInput' placeholder='Enter last-will message' rows='3'></textarea>
+              </div>
+            </div>
+          </div>
+          <div class='row'>
+            <div class='col-md-6'>
+              <div class='form-group'>
+                <label for='lastWillQosInput'>Last-Will QoS</label>
+                <select class='form-control' data-toggle='tooltip' id='lastWillQosInput' title='QoS1: at most once, QoS2: at least once, QoS3: exactly once.'>
+                  <option>0</option>
+                  <option>1</option>
+                  <option>2</option>
+                </select>
+              </div>
+            </div>
+            <div class='col-md-6'>
+              <div class='form-group'>
+                <label for='lastWillRetainInput'>Last-Will Retain</label>
+                <div class='checkbox'>
+                  <label>
+                    <input id='lastWillRetainInput' type='checkbox'>
+                      Retain
+                    </input>
+                  </label>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+      <div class='row'>
+        <div class='col-md-12 text-center'>
+          <hr />
+          <a class='btn btn-success btn-lg' href='#doConnect' id='doConnect'>Connect</a>
+        </div>
+      </div>
+    </form>
+  </div>
+</div>
+<div class='row' id='mqttActions'>
+  <div class='col-md-6'>
+    <div class='row'>
+      <div class='col-md-12'>
+        <h3>Subscribe</h3>
+        <form class='well' role='form'>
+          <div class='row'>
+            <div class='col-md-10'>
+              <div class='form-group'>
+                <label for='topicSubInput'>Topic</label>
+                <input class='form-control' id='topicSubInput' placeholder='your-domain/topic-name' />
+              </div>
+            </div>
+            <div class='col-md-2'>
+              <div class='form-group'>
+                <label for='qosSubInput'>QoS</label>
+                <select class='form-control' data-toggle='tooltip' id='qosSubInput' title='QoS1: at most once, QoS2: at least once, QoS3: exactly once.'>
+                  <option>0</option>
+                  <option>1</option>
+                  <option>2</option>
+                </select>
+              </div>
+            </div>
+          </div>
+          <a class='btn btn-primary' href='#doSubscribe' id='doSubscribe'>Subscribe</a>
+          <div class='row' id='subscriptions'>
+            <div class='col-md-12'>
+              <hr />
+              <h4>Subscriptions</h4>
+              <div id='subscriptionsList'></div>
+            </div>
+          </div>
+        </form>
+      </div>
+      <div class='col-md-12'>
+        <h3>Publish</h3>
+        <form class='well' role='form'>
+          <div class='row'>
+            <div class='col-md-10'>
+              <div class='form-group'>
+                <label for='topicPubInput'>Topic</label>
+                <input class='form-control' id='topicPubInput' placeholder='your-domain/topic-name' />
+              </div>
+            </div>
+            <div class='col-md-2'>
+              <div class='form-group'>
+                <label for='qosPubInput'>QoS</label>
+                <select class='form-control' data-toggle='tooltip' id='qosPubInput' title='QoS1: at most once, QoS2: at least once, QoS3: exactly once.'>
+                  <option>0</option>
+                  <option>1</option>
+                  <option>2</option>
+                </select>
+              </div>
+            </div>
+          </div>
+          <div class='row'>
+            <div class='col-md-12'>
+              <div class='form-group'>
+                <label for='messagePubInput'>Payload Message</label>
+                <textarea class='form-control' id='messagePubInput' placeholder='Enter your payload' rows='3'></textarea>
+              </div>
+            </div>
+          </div>
+          <a class='btn btn-primary' href='#doPublish' id='doPublish'>Publish</a>
+          <input id='retainPubInput' type='checkbox'>
+            Retain
+          </input>
+        </form>
+      </div>
+    </div>
+  </div>
+  <div class='col-md-6'>
+    <h3>Messages</h3>
+    <div id='messages'></div>
+  </div>
+</div>
+    </div>
+    <div class='footer'>
+      <p class='navbar-text navbar-left'>
+        © Copyright 2014 2lemetry, LLC. All Rights Reserved.
+      </p>
+    </div>
+    <script src='assets/javascripts/libs/jquery-1.9.1.min.js'></script>
+    <script src='assets/javascripts/libs/bootstrap.min.js'></script>
+    <script src='assets/javascripts/libs/mqttws31.js'></script>
+    <script src='assets/javascripts/libs/md5.js'></script>
+    <script src='assets/javascripts/libs/enc-base64.js'></script>
+    <script src='assets/javascripts/libs/jvent.js'></script>
+    <script src='assets/javascripts/libs/validator.js'></script>
+    <script src='assets/javascripts/libs/highlight.min.js'></script>
+    <script src='assets/javascripts/Helpers.js'></script>
+    <script src='assets/javascripts/Settings.js'></script>
+    <script src='assets/javascripts/classes/WebSocketClient.js'></script>
+    <script src='assets/javascripts/classes/AppViewController.js'></script>
+    <script src='assets/javascripts/classes/AlertViewController.js'></script>
+    <script src='assets/javascripts/classes/AppView.js'></script>
+    <script src='assets/javascripts/classes/SubscriptionsManager.js'></script>
+    <script src='assets/javascripts/classes/Publisher.js'></script>
+    <script src='assets/javascripts/classes/CookieStorageManager.js'></script>
+    <script src='assets/javascripts/app.js'></script>
+    <script src='https://2lemetry.atlassian.net/s/d41d8cd98f00b204e9800998ecf8427e/en_US-peekkh-1988229788/6252/32/1.4.7/_/download/batch/com.atlassian.jira.collector.plugin.jira-issue-collector-plugin:issuecollector/com.atlassian.jira.collector.plugin.jira-issue-collector-plugin:issuecollector.js?collectorId=5bde1ced' type='text/javascript'></script>
+  </body>
+</html>
