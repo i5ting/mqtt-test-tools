@@ -7,4 +7,6 @@
 
 ws://messagesight.demos.ibm.com:1883/mqtt
 
+ws://q.m2m.io:8083/mqtt
 
+ws://test.mosquitto.org:8080/mqtt
